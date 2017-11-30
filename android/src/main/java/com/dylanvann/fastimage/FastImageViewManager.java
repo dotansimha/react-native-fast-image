@@ -179,6 +179,14 @@ class FastImageViewManager extends SimpleViewManager<ImageViewWithUrl> implement
         int viewId = view.getId();
         eventEmitter.receiveEvent(viewId, REACT_ON_LOAD_START_EVENT, new WritableNativeMap());
 
+        Glide
+                .with(view.getContext().getApplicationContext())
+                .load(glideUrl)
+                .dontTransform()
+                .priority(priority)
+                .placeholder(TRANSPARENT_DRAWABLE)
+                .listener(LISTENER)
+                .into(view);
     }
 
     @ReactProp(name = "resizeMode")
@@ -227,7 +235,7 @@ class FastImageViewManager extends SimpleViewManager<ImageViewWithUrl> implement
     public void onProgress(String key, long bytesRead, long expectedLength) {
         List<ImageViewWithUrl> viewsForKey = VIEWS_FOR_URLS.get(key);
         if (viewsForKey != null) {
-            for (ImageViewWithUrl view : viewsForKey) {
+            for (ImageViewWithUrl view: viewsForKey) {
                 WritableMap event = new WritableNativeMap();
                 event.putInt("loaded", (int) bytesRead);
                 event.putInt("total", (int) expectedLength);
