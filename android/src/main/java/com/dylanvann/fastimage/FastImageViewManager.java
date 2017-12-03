@@ -183,7 +183,7 @@ class FastImageViewManager extends SimpleViewManager<ImageViewWithUrl> implement
                 .with(view.getContext().getApplicationContext())
                 .load(glideUrl)
                 .dontTransform()
-                .priority(priority)
+                .priority(view.priority)
                 .placeholder(TRANSPARENT_DRAWABLE)
                 .listener(LISTENER)
                 .into(view);
